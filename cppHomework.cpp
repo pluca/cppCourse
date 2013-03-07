@@ -5,6 +5,7 @@
 
 #include "day1Operations.h"
 #include "day2Operations.h"
+#include "day3Operations.h"
 #include "pp6io.h"
 
 using namespace std;
@@ -22,7 +23,7 @@ int main()
 		
 		cout << "'1' to perform day 1 operations" << endl;
 		cout << "'2' to perform day 2 operations" << endl;
-		cout << "'...' I'm sure you understood how it works. Days are available up to 2 included for now. " << endl;
+		cout << "'...' I'm sure you understood how it works. Days are available from 1 up to 3. " << endl;
 		cout << "\n>> ";
 		
 		int choice = SafeCinNum();
@@ -41,6 +42,13 @@ int main()
 		  case 2:{
 		    
 		    day2Interface();
+		    
+		    break;
+		  }
+		  
+		  case 3:{
+		    
+		    day3Interface();
 		    
 		    break;
 		  }
