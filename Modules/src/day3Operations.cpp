@@ -15,8 +15,7 @@
 int day3Interface()
 {
   
-  cout << "\nOk man now you can choose the following operations:" << endl;
-  
+  cout << "\nOk, now you can choose the following operations:" << endl;
   cout << "'1' to boost one 4-vector" << endl;
   cout << "'2' to calculate the interval of one 4-vector" << endl;
   cout << "\n>> ";
@@ -35,26 +34,13 @@ int day3Interface()
       
       int choice2 = SafeCinNum();
       
+      
       FourVector * v4;
       
-      
-      
       if(choice2 == 1)
-      {
-	double t, x, y, z;
-	cout << "Give me the 4-vector: \nt = ";		
-	t = SafeCinDouble();
-	cout << "\nx = ";	
-	x = SafeCinDouble();
-	cout << "\ny = ";		
-	y = SafeCinDouble();
-	cout << "\nz = ";
-	z = SafeCinDouble();
-	
-	v4 = new FourVector(t,x,y,z);
-      }
-      else v4 = new FourVector(1);
-
+	v4 = type4Vector();
+      else
+	v4 = createRndm4Vector(1);
       
       cout << "Ok I got your 4-vector, I'll boost it along the z axis. Now give me the velocity in c=1 units (v in [0,1]):\nvz = ";
       
@@ -85,20 +71,9 @@ int day3Interface()
       FourVector * v4;
       
       if(choice2 == 1)
-      {
-	double t, x, y, z;
-	cout << "Give me the 4-vector: \nt = ";		
-	t = SafeCinDouble();
-	cout << "\nx = ";	
-	x = SafeCinDouble();
-	cout << "\ny = ";		
-	y = SafeCinDouble();
-	cout << "\nz = ";
-	z = SafeCinDouble();
-	
-	v4 = new FourVector(t,x,y,z);
-      }
-      else v4 = new FourVector(1);
+	v4 = type4Vector();
+      else
+	v4 = createRndm4Vector(1);
       
       cout << "\nYour 4-vecotor is: ";
       v4->coutComp();
@@ -106,6 +81,8 @@ int day3Interface()
       double intv = v4->interval();
       
       cout << "\nAnd it's interval is: " << intv << endl;
+      
+      delete v4;
       
       return 0;
     }

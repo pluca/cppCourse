@@ -10,9 +10,7 @@
 	
 int day1Interface()
 {
-  
-	  cout << "\nOk man now you can choose the following operations:" << endl;
-  
+	  cout << "\nOk, now you can choose the following operations:" << endl;
 	  cout << "'0' to perform mathematical operations" << endl;
 	  cout << "'1' for finding the intercept" << endl;
 	  cout << "'2' for calculating lenghts" << endl;
@@ -49,6 +47,10 @@ int day1Interface()
 	      
 	      double m, q, x0;
 	      
+	      //findIntercept() returns default values for each particular case:
+	      //-1 returned if parallel to y ax
+	      //-2 returned if parallel to x ax
+	      
 	      switch(findIntercept(x1, y1, x2, y2, m, q, x0))
 	      {
 		case -1: { cout << "Your line is x = " << x1 << "and its intercept on x ax is " << x1 << endl; break; }
@@ -82,7 +84,8 @@ int day1Interface()
 		  
 		  for(unsigned int i = 0; i < v.size(); i++)
 		  {
-		    if(i != (v.size()-1)) cout << v[i] << ",";
+		    if(i != (v.size()-1)) 
+		      cout << v[i] << ",";
 		  }
 		  
 		  cout << ")\n" << endl;
@@ -123,8 +126,10 @@ int day1Interface()
 		  
 		  double mm = invMass(E,px,py,pz);
 		  
-		  if(mm < 0) cout << "Etot is less then |ptot|, this is not physical!!!" << endl;
-		  else cout << "The invariant mass of your particles is: " << mm << endl;
+		  if(mm < 0) 
+		    cout << "Etot is less then |ptot|, this is not physical!!!" << endl;
+		  else 
+		    cout << "The invariant mass of your particles is: " << mm << endl;
 		  
 		  return 0;
 		}
@@ -143,8 +148,10 @@ int day1Interface()
 		  
 		  double res1, res2;
 		  
-		  if( extractRoots(a,b,c,res1,res2) ) cout << "\nRoot are imaginary... sorry." << endl;
-		  else	cout << "\nThe two roots are: " << res1 << " and " << res2 << endl;
+		  if( extractRoots(a,b,c,res1,res2) ) 
+		    cout << "\nRoot are imaginary... sorry." << endl;
+		  else	
+		    cout << "\nThe two roots are: " << res1 << " and " << res2 << endl;
 		  
 		  return 0;
 		}
@@ -160,7 +167,6 @@ int day1Interface()
 int performMaths()
 {
   cout << "\nHi! You again, choosing deeper and deeper. Is seems you like maths so here is what you can do:" << endl;
-  
   cout << "'1' additions" << endl;
   cout << "'2' subtractions" << endl;
   cout << "'3' multiplications" << endl;

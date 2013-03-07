@@ -1,10 +1,16 @@
  #include <string>
  #include <cmath>
  #include <iostream>
- #include "physClasses.h"
  #include <stdlib.h>
+ #include "pp6io.h"
+ #include "physClasses.h"
+
  
- ////////////////////////////// Particle methods
+ 
+ ////////////////////////////// Particle class methods
+ 
+ 
+ //When name is set also the corresponding mass and change are set if available in the database
  
  void Particle::setMassFromName(string name)
  {
@@ -25,6 +31,8 @@
  
  
  
+ //Prints particle properties
+ 
  void Particle::coutProperties()
  {
    cout << "\n----------------\n\n";
@@ -40,7 +48,10 @@
  
  
  
- ////////////////////////////// FourVector methods
+ ////////////////////////////// FourVector class methods
+ 
+ 
+ // Generates a random FourVector
  
  FourVector::FourVector(int seed)
  {
@@ -58,6 +69,7 @@
  }
  
  
+ // Boosts a FourVector with a velocity v along z
  
  void FourVector::boost_z( double v )
  {
@@ -71,5 +83,8 @@
    z_ = gamma * (z_ - beta*t_);
    
  }
+ 
+
+
  
  

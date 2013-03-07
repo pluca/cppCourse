@@ -2,8 +2,14 @@
 #define PP6_MATH_HH 
 
 #include <vector>
+#include <iostream>
+#include <string>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::vector;
+using std::string;
+using std::endl;
 
 //Definition of Maths functions for pp6 course
 

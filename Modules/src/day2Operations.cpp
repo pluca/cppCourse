@@ -13,9 +13,7 @@
 
 int day2Interface()
 {
-  
   cout << "\nOk man now you can choose the following operations:" << endl;
-  
   cout << "'1' to swap two numbers (how exiting eh...!!!)" << endl;
   cout << "'2' for sorting arrays" << endl;
   cout << "'3' generate and study energies" << endl;
@@ -62,12 +60,16 @@ int day2Interface()
       
       cout << "\nType '1' if you want it in increasing order (anything else will give you decreasing)" << endl;
       
-      if(SafeCinNum() == 1) sort(v,N,false);
-      else sort(v,N);
+      if(SafeCinNum() == 1) 
+	sort(v,N,false);
+      else 
+	sort(v,N);
       
       cout << "\nYour vector sorted is:\n " << endl; 
       for(int i = 0; i < N; i++) cout << v[i] << ", ";
       cout << endl;
+      
+      delete v;
       
       return 0;
     }
@@ -122,8 +124,10 @@ int day2Interface()
       
       for(unsigned int i = 0; i < part.size(); i++)
       {
-	if( part[i].getName() == "mu+" ) muplus.push_back(part[i]);
-	else if( part[i].getName() == "mu-" ) muminus.push_back(part[i]);
+	if( part[i].getName() == "mu+" ) 
+	  muplus.push_back(part[i]);
+	else if( part[i].getName() == "mu-" ) 
+	  muminus.push_back(part[i]);
       }
       
   
@@ -146,7 +150,10 @@ int day2Interface()
       sort(invMasses, Ncomb);
       
       cout << "The 10 highest invariant masses I found are: \n" << endl;
-      for(int i = 0; i < 10; i++) cout << fixed << setprecision(2) << invMasses[i] << " GeV" << endl;
+      for(int i = 0; i < 10; i++) 
+	cout << std::fixed << std::setprecision(2) << invMasses[i] << " GeV" << endl;
+      
+      delete invMasses;
       
       return 0;
     }

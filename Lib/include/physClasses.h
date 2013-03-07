@@ -4,8 +4,19 @@
 #include <string>
 #include <cmath>
 #include <iostream>
+#include <vector>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::vector;
+using std::string;
+using std::endl;
+
+
+
+
+
+//Implements a Lotentz four vector class
 
 
 class FourVector
@@ -32,6 +43,13 @@ public:
   };
   
   
+  
+  ///////////////////////////////////////////  IO
+  
+  
+  void coutComp() { cout << "(" << t_ << ", " << x_ << ", " << y_ << ", " << z_ << ")";  };
+  
+  
   //////////////////////////////////////// Methods
   
   double getT() { return t_; };
@@ -52,11 +70,12 @@ public:
   
   void setZ( double z ) { z_ = z; };
   
+  void setZ( double t, double x, double y, double z ) { t_ = t; x_ = x; y_ = y; z_ = z; };
+  
   double interval() { return pow(t_,2) - pow(x_,2) - pow(y_,2) - pow(z_,2); }
   
   void boost_z( double v );
   
-  void coutComp() { cout << "(" << t_ << ", " << x_ << ", " << y_ << ", " << z_ << ")";  };
   
   
   ///////////////////////////////////////// Operators
@@ -116,9 +135,8 @@ public:
 
 
 
-
-
-
+//Implements a Particle class where each object contains physical and kinematical informations
+//Furthermore the class automatically relates some particle names to their mass.
 
 
 class Particle
@@ -177,6 +195,9 @@ public:
   };
   
   
+  /////////////////////////////////////////// IO
+  
+  void coutProperties();
   
   //////////////////////////////////////////// Public methods
   
@@ -222,9 +243,6 @@ public:
   void setM( double m ) { m_ = m; };
   
   void setCh( int ch ) { ch_ = ch; };
-  
-  void coutProperties();
-  
 };
 
 
