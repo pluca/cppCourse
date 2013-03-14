@@ -1,53 +1,12 @@
  #include <string>
  #include <cmath>
  #include <iostream>
- #include <stdlib.h>
+ #include <cstdlib>
  #include "pp6io.h"
  #include "physClasses.h"
 
  
- 
- ////////////////////////////// Particle class methods
- 
- 
- //When name is set also the corresponding mass and change are set if available in the database
- 
- void Particle::setMassFromName(string name)
- {
-   problems_ = false;
-   
-   if(name == "mu+") { m_ = 0.1507; ch_ = 1; }
-   else if(name == "mu-") { m_ = 0.1507; ch_ = -1; }
-   else if(name == "e+") { m_ = 0.00051; ch_ = 1; }
-   else if(name == "e-") { m_ = 0.00051; ch_ = -1; }
-   else if(name == "pi+") { m_ = 0.1396; ch_ = 1; }
-   else if(name == "pi-") { m_ = 0.1396; ch_ = -1; }
-   else if(name == "K+") { m_ = 0.4937; ch_ = 1; }
-   else if(name == "K-") { m_ = 0.4937; ch_ = -1; }
-   else if(name == "p+") { m_ = 0.9383; ch_ = 1; }
-   else if(name == "p-") { m_ = 0.9383; ch_ = -1; }
-   else { m_ = -1; ch_ = 0; problems_ = true; }
- }
- 
- 
- 
- //Prints particle properties
- 
- void Particle::coutProperties()
- {
-   cout << "\n----------------\n\n";
-   if(problems_) cout << "Some properties have not been filled correctly and may be wrong" << endl;
-	   cout << "Name = " << name_ << endl;
-   cout << "p = (" << px_ << ", " << py_ << ", "<< pz_ << ")" << endl;  
-   cout << "mass = " << m_ << endl;  
-   cout << "charge = " << ch_ << endl;  
-   cout << "\n-----------------" << endl;
- }
- 
- 
- 
- 
- 
+  
  ////////////////////////////// FourVector class methods
  
  
@@ -55,17 +14,14 @@
  
  FourVector::FourVector(int seed)
  {
-   srand (seed);   
+   std::srand (seed);   
+   
    t_ = rand()%100000;
+   double x = rand()%200000 - 100000;
+   double y = rand()%200000 - 100000;
+   double z = rand()%200000 - 100000;
    
-   srand (seed+1); 
-   x_ = rand()%200000 - 100000;
-   
-   srand (seed+2); 
-   y_ = rand()%200000 - 100000;
-   
-   srand (seed+3); 
-   z_ = rand()%200000 - 100000;
+   v3_.setXYZ(x,y,z);
  }
  
  
@@ -77,11 +33,14 @@
    double gamma = sqrt(1 - pow(v,2));
    double beta = v;
    
-   t_ = gamma * (t_ - beta*z_);
-   x_ = x_;
-   y_ = y_;
-   z_ = gamma * (z_ - beta*t_);
+   double oldz = v3_.getZ();
    
+   t_ = gamma * (t_ - beta*oldz);
+   double x = v3_.getX();
+   double y = v3_.getY();
+   double z = gamma * (oldz - beta*t_);
+   
+   v3_.setXYZ(x,y,z);
  }
  
 

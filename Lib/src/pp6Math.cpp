@@ -1,6 +1,7 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include <cstdlib>
 
 #include "pp6Math.h"
 
@@ -139,9 +140,11 @@ double lenght(vector<double> v)
 {
     double l2 = 0;
   
-    for(unsigned i = 0; i < v.size(); i++)
+    std::vector<double>::iterator iter = v.begin();
+    
+    for( ; iter != v.end(); ++iter)
     {
-	l2 += pow(v.at(i),2);
+	l2 += pow(*iter,2);
     }			
 
     return sqrt(l2);
@@ -152,40 +155,42 @@ double lenght(vector<double> v)
 
 //Sorts an array on N number in decreasing (default) of increasing order 
 
-int sort(double *v, int N, bool decreasing)
+vector < double > sort(vector < double > v, bool decreasing)
 {
+    vector <double> res(v);
+  
     bool sorted = false;
   
     while (sorted == false)
     {
 	sorted = true;
-      
-	for(int i = 1; i < N; i++)
+
+	for( unsigned i = 1; i < res.size(); ++i )
 	{
-	    if(v[i-1] < v[i] && decreasing) { swap( v[i] , v[i-1] ); sorted = false; }
-	    else if(v[i] < v[i-1] && !decreasing) { swap( v[i] , v[i-1] ); sorted = false; }
+	    if(res[i-1] < res[i] && decreasing) { swap( res[i] , res[i-1] ); sorted = false; }
+	    else if(res[i] < res[i-1] && !decreasing) { swap( res[i] , res[i-1] ); sorted = false; }
 	}
-	
     }
   
-   return 0;
+   return res;
 }
 
 
 
 //Sorts an array on N number in decreasing (default) of increasing order keeping trak of the new position of the original indices
-
-int sortAndKeepTrack(double *v, int N, int * indices, bool decreasing)
+/*
+int sortAndKeepTrack(vector <double> v, vector <int> &indices, bool decreasing)
 {
   bool sorted = false;
   
-  for(int i = 0; i < N; i++) indices[i] = i;
+  indices.clear();
+  for(unsigned i = 0; i < v.size(); i++) indices.push_back(i);
   
   while (sorted == false)
   {
     sorted = true;
     
-    for(int i = 1; i < N; i++)
+    for(unsigned int i = 1; i < v.size(); i++)
     {
 	if( (v[i-1] < v[i] && decreasing) || (v[i] < v[i-1] && !decreasing) ) 
 	{ 
@@ -198,65 +203,58 @@ int sortAndKeepTrack(double *v, int N, int * indices, bool decreasing)
   
   return 0;
 }
-
+*/
 
 
 
 //Computes the average of a vector of doubles
 
-double average(double * v, int N)
+double average(vector <double> v)
 {
       double avg = 0;
       
-      for(int i = 0; i < N; i++) avg+= v[i];
+      std::vector<double>::iterator iter = v.begin();
+      for( ; iter != v.end(); ++iter) avg+= *iter;
       
-      return avg/N;
+      return avg/v.size();
 }
 
 
 //Computes the standars deviation of a vector of doubles
 
-double sigma(double * v, int N)
+double sigma(vector <double> v)
 {
-  if(N < 1) { cout << "ERROR! Your vector must have at least 2 components!" << endl; return 0; } 
+  if(v.size() < 1) { cout << "ERROR! Your vector must have at least 2 components!" << endl; return 0; } 
   
   double sigma = 0;
+  double avg = average(v); 
   
-  double avg = average(v,N); 
+  std::vector<double>::iterator iter = v.begin();
+  for( ; iter != v.end(); ++ iter) sigma += pow( *iter - avg , 2 );
   
-  for(int i = 0; i < N; i++) sigma += pow( v[i] - avg , 2 );
-  
-  return sqrt(sigma/N);
+  return sqrt(sigma/v.size());
 }
 
 
 //Finds the maximum of a vector of doubles
 
-double max(double * v, int N)
+double max(vector <double> v)
 {
   double max = v[0];
   
-  for(int i = 1; i < N; i++) if(v[i] > max) max = v[i];
+  std::vector<double>::iterator iter = v.begin();
+  for( ; iter != v.end(); ++iter) 
+    if(*iter > max) max = *iter;
   
   return max;
   
 }
 
 
-//Return the index of the max value
-
-double findMax(double * v, int N)
-{
-  int * indices = new int[N];
-  
-  sortAndKeepTrack(v,N,indices);
-  
-  return indices[0];
-  
+int RandomNumber () 
+{ 
+  return (std::rand()%100);
 }
-
-
-
 
 
 

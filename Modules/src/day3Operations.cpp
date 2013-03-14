@@ -20,7 +20,7 @@ int day3Interface()
   cout << "'2' to calculate the interval of one 4-vector" << endl;
   cout << "\n>> ";
   
-  int choice = SafeCinNum();
+  int choice = SafeCin<int>();
   
   switch(choice)
   {
@@ -32,7 +32,7 @@ int day3Interface()
       cout << "'2' to generate a random one" << endl;
       cout << "\n>> ";
       
-      int choice2 = SafeCinNum();
+      int choice2 = SafeCin<int>();
       
       
       FourVector * v4;
@@ -44,7 +44,7 @@ int day3Interface()
       
       cout << "Ok I got your 4-vector, I'll boost it along the z axis. Now give me the velocity in c=1 units (v in [0,1]):\nvz = ";
       
-      double v = SafeCinDouble();
+      double v = SafeCin<double>();
       
       cout << "\nYour original 4-vecotor is: ";
       v4->coutComp();
@@ -66,7 +66,7 @@ int day3Interface()
       cout << "'2' to generate a random one" << endl;
       cout << "\n>> ";
       
-      int choice2 = SafeCinNum();
+      int choice2 = SafeCin<int>();
       
       FourVector * v4;
       

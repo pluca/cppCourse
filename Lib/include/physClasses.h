@@ -6,12 +6,137 @@
 #include <iostream>
 #include <vector>
 
+
 using std::cout;
 using std::cin;
 using std::vector;
 using std::string;
 using std::endl;
+using std::sqrt;
+using std::pow;
 
+
+//This class implements a normal three vector
+
+
+class ThreeVector
+{
+  double x_, y_, z_;
+  
+public:
+  
+  ///////////////////////////////////////////// Constructors
+  
+  ThreeVector() {};
+  
+  ThreeVector( int seed );
+  
+  ThreeVector( const double x, const double y, const double z ) :
+  x_(x), y_(y), z_(z)
+  {};
+  
+  ThreeVector(const ThreeVector &v) :
+  x_(v.x_), y_(v.y_), z_(v.z_)
+  {};
+  
+  ~ThreeVector() { //cout << "Deleting a ThreeVector object" << endl; 
+  };
+  
+  
+  
+  ///////////////////////////////////////////  IO
+  
+  
+  void coutComp() { cout << "(" << x_ << ", " << y_ << ", " << z_ << ")";  };
+  
+  
+  //////////////////////////////////////// Methods
+  
+  double getX() { return x_; };
+  
+  double getY() { return y_; };
+  
+  double getZ() { return z_; };
+  
+  double * getComp() { double *res = new double[3]; res[0] = x_; res[1] = y_; res[2] = z_; return res; };
+  
+  void setX( double x ) { x_ = x; };
+  
+  void setY( double y ) { y_ = y; };
+  
+  void setZ( double z ) { z_ = z; };
+  
+  void setXYZ( double x, double y, double z ) { x_ = x; y_ = y; z_ = z; };
+  
+  double getP() { return sqrt( pow(x_,2) + pow(y_,2) + pow(z_,2) ); }
+  
+  
+  
+  ///////////////////////////////////////// Operators
+  
+  ThreeVector& operator=( const ThreeVector& v )
+  {
+    if( &v != this )
+    {
+      x_ = v.x_;
+      y_ = v.y_;
+      z_ = v.z_;
+    }
+    
+    return *this;
+  }
+  
+  ThreeVector& operator+=( const ThreeVector& v )
+  {
+    x_ += v.x_;
+    y_ += v.y_;
+    z_ += v.z_;
+    
+    return *this;
+  }
+  
+  ThreeVector& operator-=( const ThreeVector& v )
+  {
+    x_ -= v.x_;
+    y_ -= v.y_;
+    z_ -= v.z_;
+    
+    return *this;
+  }
+  
+  ThreeVector operator+( const ThreeVector& v )
+  {
+    ThreeVector res(x_ + v.x_, y_ + v.y_, z_ + v.z_ );
+    return res;
+  }
+  
+  
+  ThreeVector operator-( const ThreeVector& v )
+  {
+    ThreeVector res(x_ - v.x_, y_ - v.y_, z_ - v.z_ );
+    return res;
+  }
+  
+  bool operator==( const ThreeVector& v )
+  {
+    if(v.x_ == x_ && v.y_ == y_ && v.z_ == z_ )
+      return true;
+    else
+      return false;
+  }
+  
+  
+  bool operator!=( const ThreeVector& v )
+  {
+    if( *this == v )
+      return false; 
+    else 
+      return true;
+  }
+  
+  
+};
+   
 
 
 
@@ -21,7 +146,8 @@ using std::endl;
 
 class FourVector
 {
-  double t_, x_, y_, z_;
+  double t_;
+  ThreeVector v3_;
   
 public:
   
@@ -32,47 +158,60 @@ public:
   FourVector( int seed );
   
   FourVector( const double t, const double x, const double y, const double z ) :
-  t_(t), x_(x), y_(y), z_(z)
+  t_(t)
+  {
+    v3_.setXYZ(x,y,z);
+  };
+  
+  FourVector( const double t, const ThreeVector v ) :
+  t_(t), v3_(v)
   {};
   
   FourVector(const FourVector &v) :
-  t_(v.t_), x_(v.x_), y_(v.y_), z_(v.z_)
+  t_(v.t_), v3_(v.v3_)
   {};
   
-  ~FourVector() { //cout << "Deleting a FourVector object" << endl; 
-  };
+  ~FourVector() {};
   
   
   
   ///////////////////////////////////////////  IO
   
   
-  void coutComp() { cout << "(" << t_ << ", " << x_ << ", " << y_ << ", " << z_ << ")";  };
+  void coutComp() { cout << "(" << t_ << ", " << v3_.getX() << ", " << v3_.getY() << ", " << v3_.getZ() << ")";  };
   
   
   //////////////////////////////////////// Methods
   
   double getT() { return t_; };
   
-  double getX() { return x_; };
+  double getX() { return v3_.getX(); };
   
-  double getY() { return y_; };
+  double getY() { return v3_.getY(); };
   
-  double getZ() { return z_; };
+  double getZ() { return v3_.getZ(); };
   
-  double * getComp() { double *res = new double[4]; res[0] = t_; res[1] = x_; res[2] = y_; res[3] = z_; return res; };
+  double * getComp() { double *res = new double[4]; res[0] = t_; res[1] = v3_.getX(); res[2] = v3_.getY(); res[3] = v3_.getZ(); return res; };
+  
+  ThreeVector get3Vector() { return v3_; };
   
   void setT( double t ) { t_ = t; };
   
-  void setX( double x ) { x_ = x; };
+  void setX( double x ) { v3_.setX(x); };
   
-  void setY( double y ) { y_ = y; };
+  void setY( double y ) { v3_.setY(y); };
   
-  void setZ( double z ) { z_ = z; };
+  void setZ( double z ) { v3_.setZ(z); };
   
-  void setZ( double t, double x, double y, double z ) { t_ = t; x_ = x; y_ = y; z_ = z; };
+  void set3Vector( ThreeVector v ) { v3_ = v; };
   
-  double interval() { return pow(t_,2) - pow(x_,2) - pow(y_,2) - pow(z_,2); }
+  void setXYZ( double x, double y, double z ) { v3_.setXYZ(x,y,z); };
+  
+  void setTXYZ( double t, double x, double y, double z ) { t_ = t; v3_.setXYZ(x,y,z); };
+  
+  double interval() { return sqrt ( pow(t_,2) - pow(v3_.getP(),2) ); }
+  
+  double getP() { return v3_.getP(); }
   
   void boost_z( double v );
   
@@ -80,171 +219,66 @@ public:
   
   ///////////////////////////////////////// Operators
   
-  FourVector& operator=( const FourVector& c )
+  FourVector& operator=( const FourVector& v )
   {
-    //if( &c != &this )
-    //{
-      t_ = c.t_;
-      x_ = c.x_;
-      y_ = c.y_;
-      z_ = c.z_;
-      
-      return *this;
-    //}
+    if( &v != this )
+    {
+      t_ = v.t_;
+      v3_ = v.v3_;
+    }
+    
+    return *this;
   }
-  
   
   FourVector& operator+=( const FourVector& v )
   {
-    t_ += v.t_ ;
-    x_ += v.x_;
-    y_ += v.y_;
-    z_ += v.z_;
+    t_ += v.t_;
+    v3_ += v.v3_ ;
     
     return *this;
   }
-  
   
   FourVector& operator-=( const FourVector& v )
   {
-    t_ -= v.t_ ;
-    x_ -= v.x_;
-    y_ -= v.y_;
-    z_ -= v.z_;
+    t_ -= v.t_;
+    v3_ -= v.v3_ ;
     
     return *this;
   }
   
-  
   FourVector operator+( const FourVector& v )
   {
-    FourVector res(t_ + v.t_, x_ + v.x_, y_ + v.y_, z_ + v.z_);
+    FourVector res(t_ + v.t_, v3_ + v.v3_ );
     return res;
   }
   
   
   FourVector operator-( const FourVector& v )
   {
-    FourVector res(t_ - v.t_, x_ - v.x_, y_ - v.y_, z_ - v.z_);
+    FourVector res(t_ - v.t_, v3_ - v.v3_);
     return res;
   }
   
   
+  bool operator==( const FourVector& v )
+  {
+    if( v.t_ == t_ && v3_ == v.v3_ )
+      return true;
+    else
+      return false;
+  }
+  
+  
+  bool operator!=( const FourVector& v )
+  {
+    if( *this == v )
+      return false; 
+    else 
+      return true;
+  }
+  
+  
 };
-
-
-
-
-//Implements a Particle class where each object contains physical and kinematical informations
-//Furthermore the class automatically relates some particle names to their mass.
-
-
-class Particle
-{
-  string name_;
-  double px_;
-  double py_;
-  double pz_;
-  double m_;
-  int ch_;
-  bool problems_;
-  
-  void setMassFromName(string name);
-  
-public:
-  
-  ////////////////////////////////// Constructors
-  
-  Particle(){ problems_ = true; };
-  
-  Particle( string name, double px, double py, double pz ) :
-  name_(name),
-  px_(px),
-  py_(py),
-  pz_(pz)
-  {
-    setMassFromName(name);
-  };
-  
-  
-  Particle( string name, double px, double py, double pz, double m ) :
-  name_(name), px_(px), py_(py), pz_(pz), m_(m)
-  {
-    if(m_ < 0.) problems_ = true;
-    else problems_ = false;    
-  };
-  
-  Particle( string name, double px, double py, double pz, double m, int ch ) :
-  name_(name), px_(px), py_(py), pz_(pz), m_(m), ch_(ch)
-  {
-    if(m_ < 0.) problems_ = true;
-    else problems_ = false;
-  };
-  
-  Particle( string name, double px, double py, double pz, int ch ) :
-  name_(name), px_(px), py_(py), pz_(pz), ch_(ch)
-  {
-    setMassFromName(name);	
-  };
-  
-  Particle( const Particle &p ) :
-  name_(p.name_), px_(p.px_), py_(p.py_), pz_(p.pz_), m_(p.m_), ch_(p.ch_), problems_(p.problems_)
-  {};
-  
-  ~Particle() { //cout << "Deleting " << name_ << endl;
-  };
-  
-  
-  /////////////////////////////////////////// IO
-  
-  void coutProperties();
-  
-  //////////////////////////////////////////// Public methods
-  
-  string getName() { return name_; };
-  
-  double getPx() { return px_; };
-  
-  double getPy() { return py_; };
-  
-  double getPz() { return pz_; };
-  
-  double * getPComp() { double *res = new double[3]; res[0] = px_; res[1] = py_; res[2] = pz_; return res; };
-  
-  double getP() { return sqrt( pow(px_,2) + pow(py_,2) + pow(pz_,2) ); };
-  
-  int getCharge() { if(problems_) cout << "Charge could not be right" << endl;  return ch_; };
-  
-  double getMass() { if(problems_) cout << "Mass could not be right" << endl; return m_; };
-  
-  double getEnergy() { 
-    if(problems_) cout << "Energy could not be right" << endl;
-    return pow(m_,2) + pow( getP(),2 ); 
-  };
-  
-  FourVector get4Vector() { 
-    if(problems_) cout << "ATTENTION Energy component could be wrong." << endl; 
-    FourVector res(getEnergy(),px_,py_,pz_);
-    return res; 
-  };
-  
-  bool problems() { return problems_; };
-  
-  void setName( string name ) { name_ = name; };
-  
-  void setPx( double px ) { px_ = px; };
-  
-  void setPy( double py ) { py_ = py; };
-  
-  void setPz( double pz ) { pz_ = pz; };
-  
-  void setP( double px, double py, double pz ) { px_ = px; py_ = py; pz_ = pz; };
-  
-  void setM( double m ) { m_ = m; };
-  
-  void setCh( int ch ) { ch_ = ch; };
-};
-
 
 
 

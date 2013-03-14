@@ -26,9 +26,9 @@ int findIntercept(double x1, double y1, double x2, double y2, double &m, double 
 
 double lenght(vector<double> v);
 
-int sort(double *v, int N, bool decreasing = true);
+vector <double> sort(vector <double> v, bool decreasing = true);
 
-int sortAndKeepTrack(double *v, int N, int * indices, bool decreasing = true);
+//int sortAndKeepTrack(vector <double> v, vector <int> &indices, bool decreasing)
 
 double add(double a, double b);
 
@@ -38,11 +38,15 @@ double subtract(double a, double b);
 
 double divide(double a, double b);
 
-double average(double * v, int N);
+double average(vector <double> v);
 
-double sigma(double * v, int N);
+double sigma(vector <double> v);
 
-double max(double * v, int N);
+double max(vector <double> v);
+
+double findMax(vector <double> v);
+
+int RandomNumber();
 
 
 #endif

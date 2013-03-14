@@ -6,6 +6,7 @@
 #include "day1Operations.h"
 #include "day2Operations.h"
 #include "day3Operations.h"
+#include "day4Operations.h"
 #include "pp6io.h"
 
 using namespace std;
@@ -26,7 +27,7 @@ int main()
 		cout << "'...' I'm sure you understood how it works. Days are available from 1 up to 3. " << endl;
 		cout << "\n>> ";
 		
-		int choice = SafeCinNum();
+		int choice = SafeCin<int>();
 		
 		switch(choice)
 		{
@@ -52,11 +53,17 @@ int main()
 		    
 		    break;
 		  }
+
+		  case 4:{
+		    
+		    day4Interface();
+		    
+		    break;
+		  }
 		  
 		  default: cout << "\nChoice not allowed, retry!" << endl;
-		
+		  
 		}
- 
 
 		cout << "\n*******************************\n\nType any charachter to restart or 'q' to quit.\n" << endl;
 		cin >> quit;	

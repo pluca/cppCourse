@@ -18,7 +18,7 @@ int day1Interface()
 	  cout << "'4' for solving quadratic equations" << endl;
 	  cout << "\n>> ";
 
-	  int choice = SafeCinNum();
+	  int choice = SafeCin<int>();
 	  
 	  switch(choice)
 	  {
@@ -37,13 +37,13 @@ int day1Interface()
 	      
 	      double x1,y1,x2,y2;
 	      cout << "Give me the first point (x,y): \nx1 = ";		
-	      x1 = SafeCinDouble();
+	      x1 = SafeCin<double>();
 	      cout << "\ny1 = ";	
-	      y1 = SafeCinDouble();
+	      y1 = SafeCin<double>();
 	      cout << "\nGive me the second point (x,y):  \nx2 = ";		
-	      x2 = SafeCinDouble();
+	      x2 = SafeCin<double>();
 	      cout << "\ny2 = ";
-	      y2 = SafeCinDouble();
+	      y2 = SafeCin<double>();
 	      
 	      double m, q, x0;
 	      
@@ -68,14 +68,14 @@ int day1Interface()
 		  vector < double > v;
 		  
 		  cout << "N components = ";
-		  int ncomp = SafeCinNum();
+		  int ncomp = SafeCin<int>();
 		  
 		  cout << "\nVery well, give me the components now (x1,x2,x3,...)!" << endl;
 		  
 		  for(int i = 0; i < ncomp; i++)
 		  {
 		    cout << "Component " << i+1 << ": " << endl;
-		    double curcomp = SafeCinDouble();
+		    double curcomp = SafeCin<double>();
 		    v.push_back(curcomp);
 		  }
 		  
@@ -100,26 +100,26 @@ int day1Interface()
 		  
 		  cout << "\n***********************\n\nI'll calculate the invatiant mass of N particles." << endl;
 		  cout << "How many particles do you want? N = ";
-		  int N = SafeCinNum();
+		  int N = SafeCin<int>();
 		  
 		  
 		  for(int i = 0; i < N; i++)
 		  {	
 		    cout << "\nGive me the 4-vector of particle " << i+1 << ":\nE = ";			
-		    double val = SafeCinDouble();
+		    double val = SafeCin<double>();
 		    if(val < 0) { cout << "Energy cannot be negative, retry." << endl; i--; continue; }
 		    E.push_back(val);
 		    
 		    cout << "\npx = ";			
-		    val = SafeCinDouble();
+		    val = SafeCin<double>();
 		    px.push_back(val);
 		    
 		    cout << "\npy = ";			
-		    val = SafeCinDouble();
+		    val = SafeCin<double>();
 		    py.push_back(val);
 		    
 		    cout << "\npz = ";			
-		    val = SafeCinDouble();
+		    val = SafeCin<double>();
 		    pz.push_back(val);
 		  }
 		  
@@ -140,11 +140,11 @@ int day1Interface()
 		  
 		  cout << "\n***********************\n\nThe equation to solve is ax^2 + bx + c = 0. Enter a, b and c" << endl;
 		  cout << "\na = ";	
-		  a = SafeCinDouble();
+		  a = SafeCin<double>();
 		  cout << "\nb = ";	
-		  b = SafeCinDouble();
+		  b = SafeCin<double>();
 		  cout << "\nc = ";	
-		  c = SafeCinDouble();
+		  c = SafeCin<double>();
 		  
 		  double res1, res2;
 		  
@@ -173,7 +173,7 @@ int performMaths()
   cout << "'4' dicisions" << endl;
   cout << "\n>> ";
   
-  int choice = SafeCinNum();
+  int choice = SafeCin<int>();
   
   
   if(choice < 0 || choice > 4) { cout << "Choice non available, you'll have to start again." << endl; return 1; }
@@ -181,9 +181,9 @@ int performMaths()
   {
 	cout << "\n***********************\n\n Ok, enter two numbers now a and b and I'll perform the operation you requested" << endl;
 	cout << "\na = ";	
-	double a = SafeCinDouble();
+	double a = SafeCin<double>();
 	cout << "\nb = ";	
-	double b = SafeCinDouble();
+	double b = SafeCin<double>();
   
 	switch(choice)
 	{

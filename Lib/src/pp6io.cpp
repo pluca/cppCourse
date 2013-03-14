@@ -6,46 +6,9 @@
 #include "pp6io.h"
 #include "FileReader.hpp"
 #include "physClasses.h"
+#include "partClasses.h"
 
 using namespace std;
-
-
-//This functions allows to safely eter a int from standard output
-
-int SafeCinNum()
-{	
-	int number;
-	
-	do{
-		cin >> number;
-        	if(cin.fail()) cout << "\aNot a number, retry!" << endl;
-		cin.clear();
-		cin.ignore(INT_MAX,'\n');
-
-    	}while(cin.fail());
-
-	return number;
-}
-
-
-//This functions allows to safely eter a double from standard output
-
-double SafeCinDouble()
-{	
-	double number;
-	
-	do{
-		cin >> number;
-        	if(cin.fail()) cout << "\aNot a number, retry!" << endl;
-		cin.clear();
-		cin.ignore(INT_MAX,'\n');
-
-    	}while(cin.fail());
-
-	return number;
-}
-
-
 
 
 //This functions allows read particles from a file using Filereader library
@@ -62,20 +25,19 @@ vector< Particle > readFile(string name)
       
 	while (f.nextLine()) 
 	{
-	    f.getFieldAsInt(1);
+	    f.getField<int>(1);
 	    
-	    string name = f.getFieldAsString(2);
+	    string name = f.getField<string>(2);
 	    
-	    double px = f.getFieldAsDouble(3);
-	    double py = f.getFieldAsDouble(4);
-	    double pz = f.getFieldAsDouble(5);
+	    double px = f.getField<double>(3);
+	    double py = f.getField<double>(4);
+	    double pz = f.getField<double>(5);
       
-	    f.getFieldAsString(6);
+	    f.getField<string>(6);
 	    
 	    if (f.inputFailed()) break;
 	    
 	    Particle evt(name,px,py,pz);
-	    
 	    res.push_back(evt);
 	}
     }
@@ -113,19 +75,44 @@ void delete4Vector( FourVector * v ) { delete v; }
 FourVector * type4Vector() 
 { 
   cout << "Give me the 4-vector: \nt = ";		
-  double t = SafeCinDouble();
+  double t = SafeCin<double>();
   cout << "\nx = ";	
-  double x = SafeCinDouble();
+  double x = SafeCin<double>();
   cout << "\ny = ";		
-  double y = SafeCinDouble();
+  double y = SafeCin<double>();
   cout << "\nz = ";
-  double z = SafeCinDouble();
+  double z = SafeCin<double>();
   cout << endl;
   
   FourVector *res = new FourVector( t, x, y, z );
   
   return res;
 }
+
+
+
+
+ParticleInfo FillPartInfo(string name)
+{
+      ParticleInfo pInfo;
+      
+      FileReader f(name);
+      
+      if (f.isValid()) 
+      {
+	f.nextLine();  //jump first line
+	
+	while (f.nextLine()) 
+	{
+	  //cout << f.getField<string>(1) <<" "<<  f.getField<int>(2) <<" "<<  f.getField<int>(3) <<" "<<  f.getField<double>(4) << endl;
+	  pInfo.insert( f.getField<string>(1), f.getField<int>(2), f.getField<int>(3), f.getField<double>(4) );
+	  if (f.inputFailed()) break;
+	}
+      }
+
+      return pInfo;
+}
+
 
 
 

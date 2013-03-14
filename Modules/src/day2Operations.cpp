@@ -2,8 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <climits>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
 #include <iomanip>
 
 #include "pp6Math.h"
@@ -20,7 +20,7 @@ int day2Interface()
   cout << "'4' analyise ObservedParticles.dat (not implemented yet)" << endl;
   cout << "\n>> ";
   
-  int choice = SafeCinNum();
+  int choice = SafeCin<int>();
   
   switch(choice)
   {
@@ -31,8 +31,8 @@ int day2Interface()
       
       cout << "Insert two numbers" << endl;
       
-      a = SafeCinDouble();
-      b = SafeCinDouble();
+      a = SafeCin<double>();
+      b = SafeCin<double>();
       
       cout << "You inserted: " << a << "    " << b << endl;
       
@@ -48,28 +48,26 @@ int day2Interface()
     {
       cout << "\n***********************\n\nI'll sort an arrey of N numbers." << endl;
       cout << "How many numbers do you want? N = ";
-      int N = SafeCinNum();
+      int N = SafeCin<int>();
       
-      double * v = new double[N]; 
+      vector < double > v; 
       
       for(int i = 0; i < N; i++)
       {	
 	cout << "\nGive me the number " << i+1 << ": ";			
-	v[i] = SafeCinDouble();
+	v.push_back( SafeCin<double>() );
       }
       
       cout << "\nType '1' if you want it in increasing order (anything else will give you decreasing)" << endl;
       
-      if(SafeCinNum() == 1) 
-	sort(v,N,false);
+      if(SafeCin<int>() == 1) 
+	sort(v,false);
       else 
-	sort(v,N);
+	sort(v);
       
       cout << "\nYour vector sorted is:\n " << endl; 
       for(int i = 0; i < N; i++) cout << v[i] << ", ";
       cout << endl;
-      
-      delete v;
       
       return 0;
     }
@@ -82,31 +80,25 @@ int day2Interface()
       cout << "\t- Masses generated in [0,100] GeV\n" << endl;    
      
       const int N = 100;
-      double E[N];
+      vector <double> E;
+      
+      std::srand ( unsigned ( std::time(0) ) );
       
       for(int i = 0; i < N; i++)
       {
 	//Momentum components generated between -10 and 10 GeV
+	double px = std::rand()%20000 - 10000;
+	double py = std::rand()%20000 - 10000;
+	double pz = std::rand()%20000 - 10000;
+	double m = std::rand()%100000;
 	
-	srand (i);
-	double px = rand()%20000 - 10000;
-
-	srand (i+N);
-	double py = rand()%20000 - 10000;
-	
-	srand (i+2*N);
-	double pz = rand()%20000 - 10000;
-	
-	srand (i+3*N);
-	double m = rand()%100000;
-	
-	E[i] = sqrt(m*m + px*px + py*py + pz*pz);
+	E.push_back( sqrt(m*m + px*px + py*py + pz*pz) );
       }
       
       
-      cout << "\nThe average of my energy distribution is: " << average(E,100) << endl;
-      cout << "The stantard deviation of my energy distribution is: " << sigma(E,100) << endl;
-      cout << "The max energy is: " << max(E,100) << endl;   
+      cout << "\nThe average of my energy distribution is: " << average(E) << endl;
+      cout << "The stantard deviation of my energy distribution is: " << sigma(E) << endl;
+      cout << "The max energy is: " << max(E) << endl;   
       
       return 0;
     }
@@ -125,15 +117,13 @@ int day2Interface()
       for(unsigned int i = 0; i < part.size(); i++)
       {
 	if( part[i].getName() == "mu+" ) 
-	  muplus.push_back(part[i]);
+	  muplus.push_back(part.at(i));
 	else if( part[i].getName() == "mu-" ) 
-	  muminus.push_back(part[i]);
+	  muminus.push_back(part.at(i));
       }
-      
   
-      int Ncomb = muplus.size()*muminus.size();
-      double * invMasses = new double[Ncomb];
-      int cur = 0;
+      //int Ncomb = muplus.size()*muminus.size();
+      vector < double > invMasses;
       
       for(unsigned int i = 0; i < muplus.size(); i++)
       {
@@ -142,18 +132,16 @@ int day2Interface()
 	  FourVector v1 = muplus[i].get4Vector();
 	  FourVector v2 = muminus[j].get4Vector();
 	  FourVector sum = v1 + v2;
-	  invMasses[cur] = sum.interval();
-	  cur++;
+	  invMasses.push_back( sum.interval() );
 	}
       }
-      
-      sort(invMasses, Ncomb);
-      
+         
+         
+      vector<double> sorted = sort(invMasses);
+
       cout << "The 10 highest invariant masses I found are: \n" << endl;
       for(int i = 0; i < 10; i++) 
-	cout << std::fixed << std::setprecision(2) << invMasses[i] << " GeV" << endl;
-      
-      delete invMasses;
+	cout << std::fixed << std::setprecision(2) << sorted[i] << " GeV" << endl;
       
       return 0;
     }
